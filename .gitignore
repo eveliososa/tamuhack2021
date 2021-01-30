@@ -3,3 +3,4 @@ frontend/yarn.lock
 frontend/.eslintcache
 .DS_Store
 api/venv
+*vscode
