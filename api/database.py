@@ -21,6 +21,8 @@ class DB:
         # create user_accounts table if not already in database
         command = ["CREATE TABLE IF NOT EXISTS user_accounts ("
                    "user_id INT NOT NULL AUTO_INCREMENT, ",
+                   "first_Name VARCHAR(255) NOT NULL, ",
+                   "last_Name VARCHAR(255) NOT NULL, ",
                    "username VARCHAR(255) NOT NULL, ",
                    "password VARCHAR(255) NOT NULL, ",
                    "bank_account INT, ",
@@ -36,6 +38,7 @@ class DB:
         command = ["CREATE TABLE IF NOT EXISTS charity_accounts ("
                    "charity_id INT NOT NULL AUTO_INCREMENT, ",
                    "charity_name VARCHAR(255) NOT NULL, ",
+                    "username VARCHAR(255) NOT NULL, ",
                    "password VARCHAR(255), ",
                    "bank_account INT, ",
                    "current_total INT NOT NULL, ",
@@ -112,9 +115,9 @@ class DB:
         else:
             return False
 
-    def validateCharityLogin(self, charity_name, password):
-        self.mycursor.execut("SELECT * FROM charity_accounts WHERE charity_name='" +
-                             str(charity_name) + "' AND password=" + str(password) + ";")
+    def validateCharityLogin(self, username, password):
+        self.mycursor.execut("SELECT * FROM charity_accounts WHERE username='" +
+                             str(username) + "' AND password=" + str(password) + ";")
         if self.mycursor.rowcount > 0:
             return True
         else:
