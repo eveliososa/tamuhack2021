@@ -52,7 +52,6 @@ myDB.updateUserCharities(
     'Mel', {'The Hunger Project': 50, 'PetSmart Charities': 50})
 myDB.updateUserCharities('kg', {'American Wildlife Foundation': 10,
                                 'The Hunger Project': 50, 'PetSmart Charities': 40})
-getDonation('kg')
 
 # Note id is username for all of the route functions
 
@@ -134,6 +133,20 @@ def getUserOrganizations(username):
         return {'subscriptions': []}
     else:
         return {'subscriptions': list(json.loads(results).keys())}
+
+
+@app.route('/api/loginOrganization/<username>/<password>', methods=['GET'])
+@cross_origin()
+def loginOrganization(username, password):
+    return {
+        "status": myDB.validateCharityLogin(username, password)
+    }
+
+
+@app.route('/api/loginUser/<username>/<password>', methods=['GET'])
+@cross_origin()
+def loginUser(username, password):
+    return {"status": myDB.validateUserLogin(username, password)}
 
 
 @app.route('/api/allOrganizations', methods=['GET'])
