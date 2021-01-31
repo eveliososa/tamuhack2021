@@ -34,8 +34,9 @@ def getUserData(username):
 @app.route('/api/organization/<username>', methods=['GET'])
 @cross_origin()
 def getOrganizationData(username):
+    print(myDB.getCharityData(username))
     return {
-        myDB.getCharityData(username)
+        'status': 'hello'
     }
 
 
@@ -55,9 +56,9 @@ def createUser():
     return {"status": myDB.addUser(data['firstName'], data['lastName'], data['username'], data['password'])}
 
 
-@app.route('/api/registerOrganization', methods=['POST', 'GET'])
+@app.route('/api/registerOrganization', methods=['POST'])
 @cross_origin()
-def createOrganization(charity_name, password):
+def createOrganization():
     data = request.get_json()
     return {"status": myDB.addCharity(data['organizationName'], data['username'], data['password'])}
 

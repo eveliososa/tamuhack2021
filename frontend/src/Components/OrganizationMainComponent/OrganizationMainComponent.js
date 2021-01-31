@@ -36,7 +36,7 @@ export const OrganizationMainComponent = ({
         const body = {
             newDescription,
         };
-        fetch(`http://localhost:5000/api/organization//updateMessage/${username}`, {
+        fetch(`http://localhost:5000/api/organization//updateDescription/${username}`, {
             crossDomain: true,
             method: "POST",
             headers: {"Content-type": "application/json"},
