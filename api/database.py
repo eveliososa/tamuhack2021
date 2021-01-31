@@ -42,7 +42,7 @@ class DB:
                    "password VARCHAR(255) NOT NULL, ",
                    "bank_account INT, ",
                    "current_total INT NOT NULL, ",
-                   "description VARCHAR(MAX) DEFAULT, ",
+                   "description VARCHAR(MAX), ",
                    "total_received INT NOT NULL, ",
                    "PRIMARY KEY (charity_id)"
                    ");"]
