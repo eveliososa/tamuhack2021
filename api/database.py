@@ -27,8 +27,8 @@ class DB:
                    "password VARCHAR(255) NOT NULL, ",
                    "bank_account INT, ",
                    "charity_id_percent JSON, ",
-                   "current_total INT NOT NULL, ",
-                   "goal INT, ",
+                   "current_total FLOAT NOT NULL, ",
+                   "goal FLOAT, ",
                    "PRIMARY KEY (user_id)"
                    ");"]
         self.mycursor.execute("".join(command))
@@ -41,7 +41,7 @@ class DB:
                    "username VARCHAR(255) NOT NULL, ",
                    "password VARCHAR(255) NOT NULL, ",
                    "bank_account INT, ",
-                   "current_total INT NOT NULL, ",
+                   "current_total FLOAT NOT NULL, ",
                    "description VARCHAR(8000), ",
                    "total_received INT NOT NULL, ",
                    "PRIMARY KEY (charity_id)"
@@ -146,9 +146,17 @@ class DB:
             return False
 
     def updateUserCharities(self, username, charity_json):
-        self.mycursor.execute("UPDATE user_accounts SET charity_id_percent = '"
-                              + json.dumps(charity_json) + "' WHERE username='" + str(username) + "';")
-        self.commitDB()
+        validated = True
+        charities = []
+        for charity in self.getAllCharities():
+            charities.append(charity['charity_name'])
+        for key in charity_json.keys():
+            if key not in charities:
+                validated = False
+        if validated:
+            self.mycursor.execute("UPDATE user_accounts SET charity_id_percent = '"
+                                  + json.dumps(charity_json) + "' WHERE username='" + str(username) + "';")
+            self.commitDB()
 
     def updateCharityDescription(self, username, description):
         self.mycursor.execute("UPDATE charity_accounts SET description='" +
@@ -227,9 +235,9 @@ class DB:
         self.commitDB()
         return result
 
-    def getCharityTotal(self, username):
-        command = "SELECT current_total FROM charity_accounts WHERE username='" + \
-            str(username) + "';"
+    def getCharityTotal(self, charity_name):
+        command = "SELECT current_total FROM charity_accounts WHERE charity_name='" + \
+            str(charity_name) + "';"
         self.mycursor.execute(command)
         result = self.mycursor.fetchall()
         self.commitDB()
@@ -238,6 +246,13 @@ class DB:
     def getAllCharities(self):
         command = "SELECT charity_name FROM charity_accounts;"
         self.mycursor.execute(command)
+        result = self.mycursor.fetchall()
+        self.commitDB()
+        return result
+
+    def getUserCharity(self, username):
+        self.mycursor.execute(
+            "SELECT charity_id_percent FROM user_accounts WHERE username='" + str(username) + "';")
         result = self.mycursor.fetchall()
         self.commitDB()
         return result
