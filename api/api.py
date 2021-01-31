@@ -15,8 +15,9 @@ myDB.createCharitiesTable()
 myDB.addCharity('BLM', 'password')
 myDB.addUser('Mel', 'password')
 myDB.addUser('Kai', 'password')
-myDB.updateUserCharities('Kai', {'BML': 50, 'ABC': 50})
-myDB.getAllCharities()
+myDB.updateUserCharities('Mel', {'BLM': 50, 'ABC': 50})
+myDB.updateUserCharities('Kai', {'BLM': 50, 'ABC': 50})
+myDB.getSubCount('BLM')
 
 # Note id is username for all of the route functions
 
@@ -39,12 +40,13 @@ def getOrganizationData(id):
 @cross_origin()
 def createUser():
     data = request.get_json()
-    return {"status":myDB.addUser(data['firstName'], data['lastName'], data['username'], data['password'])}
+    return {"status": myDB.addUser(data['firstName'], data['lastName'], data['username'], data['password'])}
+
 
 @app.route('/api/registerOrganization', methods=['POST', 'GET'])
 def createOrganization(charity_name, password):
     data = request.get_json()
-    return {"status":myDB.addCharity(data['organizationName'], data['username'], data['password'])}
+    return {"status": myDB.addCharity(data['organizationName'], data['username'], data['password'])}
 
 
 if __name__ == '__main__':
