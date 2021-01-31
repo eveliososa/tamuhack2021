@@ -32,19 +32,19 @@ export const UserRegistrationPage = () => {
 
     return(
         <Box className="userRegistrationContainer">
-            <Typography className="title">User Registration</Typography>
-            <Box className="formContainer">
-                <Box className="formFieldContainer">
-                    <TextField className="formField" id="firstname" required label="First Name" value={firstName} onChange={handleFirstNameChange}  variant="outlined"/>
+            <Typography className="userRegistrationTitle">User Registration</Typography>
+            <Box className="userRegistrationFormContainer">
+                <Box className="userRegistrationFormFieldContainer">
+                    <TextField className="userRegistrationFormField" id="firstname" required label="First Name" value={firstName} onChange={handleFirstNameChange}  variant="outlined"/>
                 </Box>
-                <Box className="formFieldContainer">
-                    <TextField className="formField" id="lastname" required label="Last Name" value={lastName} onChange={handleLastNameChange} variant="outlined"/>
+                <Box className="userRegistrationFormFieldContainer">
+                    <TextField className="userRegistrationFormField" id="lastname" required label="Last Name" value={lastName} onChange={handleLastNameChange} variant="outlined"/>
                 </Box>
-                <Box className="formFieldContainer">
-                    <TextField className="formField" id="username" required label="Username" value={username} onChange={handleUsernameChange} variant="outlined"/>
+                <Box className="userRegistrationFormFieldContainer">
+                    <TextField className="userRegistrationFormField" id="username" required label="Username" value={username} onChange={handleUsernameChange} variant="outlined"/>
                 </Box>
-                <Box className="formFieldContainer">
-                    <TextField className="formField" id="password" required label="Password" type="password" value={password} onChange={handlePasswordChange} variant="outlined"/>
+                <Box className="userRegistrationFormFieldContainer">
+                    <TextField className="userRegistrationFormField" id="password" required label="Password" type="password" value={password} onChange={handlePasswordChange} variant="outlined"/>
                 </Box>
                 <Button size="large" variant="contained" color="primary" onClick={() => handleSubmit()}>Register</Button>
             </Box>

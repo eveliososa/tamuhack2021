@@ -1,0 +1,36 @@
+.homePageContainer{
+    margin: 0px !important;
+    padding: 0px !important; 
+}
+.homePageNavigationContainer{
+    margin: 0px !important;
+    padding: 40px 0px !important;
+    background-color: #154360;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+.homePageTitleContainer{
+    padding: 0px 0px 0px 10%;
+    text-align: left;
+    align-items: left;
+}
+.homePageTitle{
+    font-weight: 800 !important;
+    font-size: 30px !important;
+    color: white !important;
+}
+.homePageButtonContainer{
+    padding: 0px 10% 0px 0px;
+    text-align: right;
+    align-items: right;
+}
+.homePageButton{
+    margin: auto 10px !important;
+    font-weight: 500 !important;
+    font-size: 17px !important;
+    padding: 10px 15px !important;
+    color: white !important;
+}
+.homePageButton:hover{
+    color: #E5E7E9 !important;
+}

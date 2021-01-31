@@ -2,20 +2,20 @@
     padding-top: 125px;
     text-align: center;
 }
-.title{
+.organizationLoginTitle{
     font-size: 20px !important;
     font-weight: 600 !important;
 }
-.formContainer {
+.organizationLoginFormContainer {
     margin: 10px auto 0px auto;
     width: 50%;
     max-width: 300px;
     text-align: center;
 }
-.formFieldContainer{
+.organizationLoginFormFieldContainer{
     width: 100%;
     margin: 30px 0px;
 }
-.formField{
+.organizationLoginFormField{
     width: 100% !important;
 }

@@ -22,13 +22,13 @@ export const OrganizationLoginPage = () => {
 
     return(
         <Box className="organizationLoginContainer">
-            <Typography className="title">Organization Login</Typography>
-            <Box className="formContainer">
-                <Box className="formFieldContainer">
-                    <TextField className="formField" id="username" required label="Username" value={username} onChange={handleUsernameChange} variant="outlined"/>
+            <Typography className="organizationLoginTitle">Organization Login</Typography>
+            <Box className="organizationLoginFormContainer">
+                <Box className="organizationLoginFormFieldContainer">
+                    <TextField className="organizationLoginFormField" id="username" required label="Username" value={username} onChange={handleUsernameChange} variant="outlined"/>
                 </Box>
-                <Box className="formFieldContainer">
-                    <TextField className="formField" id="password" required label="Password" type="password" value={password} onChange={handlePasswordChange} variant="outlined"/>
+                <Box className="organizationLoginFormFieldContainer">
+                    <TextField className="organizationLoginFormField" id="password" required label="Password" type="password" value={password} onChange={handlePasswordChange} variant="outlined"/>
                 </Box>
                 <Button size="large" variant="contained" color="primary" onClick={() => handleSubmit()}>Login</Button>
             </Box>
