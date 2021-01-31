@@ -62,16 +62,16 @@ getDonation('kg')
 # Note id is username for all of the route functions
 
 
-@ app.route('/api/user/<username>', methods=['GET'])
-@ cross_origin()
+@app.route('/api/user/<username>', methods=['GET'])
+@cross_origin()
 def getUserData(username):
     data = myDB.getUserData(username)[0]
     print(data)
     return data
 
 
-@ app.route('/api/organization/<username>', methods=['GET'])
-@ cross_origin()
+@app.route('/api/organization/<username>', methods=['GET'])
+@cross_origin()
 def getOrganizationData(username):
     data = myDB.getCharityData(username)[0]
     data['subscribers'] = myDB.getSubCount(data['charity_name'])
@@ -86,35 +86,41 @@ def updateDescription():
     return {"status": True}
 
 
-@ app.route('/api/registerUser', methods=['POST'])
-@ cross_origin()
+@app.route('/api/registerUser', methods=['POST'])
+@cross_origin()
 def createUser():
     data = request.get_json()
     return {"status": myDB.addUser(data['firstName'], data['lastName'], data['username'], data['password'])}
 
 
-@ app.route('/api/registerOrganization', methods=['POST'])
-@ cross_origin()
+@app.route('/api/registerOrganization', methods=['POST'])
+@cross_origin()
 def createOrganization():
     data = request.get_json()
     return {"status": myDB.addCharity(data['organizationName'], data['username'], data['password'])}
 
+@app.route('/api/userOrganizations/<username>', methods=['POST'])
+@cross_origin()
+def getUserOrganizations(username):
 
 @app.route('/api/allOrganizations', methods=['GET'])
 @cross_origin()
 def getCharities():
     data = myDB.getAllCharities()
+    count = 1
+    template = {}
     for entry in data:
-        entry['description'] = myDB.getCharityData(
-            entry['charity_name'])[0]['description']
-        entry['total_received'] = myDB.getCharityData(
-            entry['charity_name'])[0]['total_received']
+        entry['description'] = myDB.getCharityData(entry['charity_name'])[0]['description']
+        entry['total_received'] = myDB.getCharityData(entry['charity_name'])[0]['total_received']
+        print("In here")
         entry['subcriptions'] = myDB.getSubCount(entry['charity_name'])
-    print(data)
-    return data
-
-# @ app.route('/api/', methods=['GET'])
-# @ cross_origin()
+    
+    for entry in data:
+        template[str(count)] = entry
+        count += 1
+    
+    print(template)
+    return template
 
 
 if __name__ == '__main__':
