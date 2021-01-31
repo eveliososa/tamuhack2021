@@ -23,7 +23,7 @@ export const OrganizationPage = () => {
                 return null;
             }
         }).then(data => {
-            if(data===null){
+            if(data!==null){
                 setValidData(true);
                 setOrganizationData(data);
             } else{
