@@ -1,6 +1,9 @@
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
 from database import DB
+import plaid
+import json
+from transaction import client_id, secret, access_token
 
 app = Flask(__name__)
 
@@ -12,6 +15,22 @@ myDB.dropTable("user_accounts")
 myDB.dropTable("charity_accounts")
 myDB.createUserTable()
 myDB.createCharitiesTable()
+
+client = plaid.Client(client_id=client_id,
+                      secret=secret,
+                      environment='sandbox',
+                      api_version='2019-05-29')
+
+response = client.Transactions.get(
+    access_token, start_date='2021-01-05', end_date='2021-01-25')
+transactions = response['transactions']
+
+
+def pretty_print_response(response):
+    print(json.dumps(response, indent=2, sort_keys=True))
+
+
+# pretty_print_response(transactions)
 
 # myDB.addCharity('BLM', 'blm', 'password')
 # myDB.addUser('Mellisa', 'Perez', 'Mel', 'password')
