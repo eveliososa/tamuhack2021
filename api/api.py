@@ -57,6 +57,7 @@ myDB.updateUserCharities('kg', {'American Wildlife Foundation': 10,
 
 
 @app.route('/api/getDonation/<username>', methods=['GET'])
+@cross_origin()
 def getDonation(username):
     donation = processTransactions()
     current_total = myDB.getUserTotal(username)[0]['current_total']

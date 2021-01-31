@@ -13,6 +13,15 @@ export const UserMainComponent = ({
             <Typography className="userPageTitle">Welcome {userData["first_name"]} {userData["last_name"]}!</Typography>
             <Avatar className="userPageAvatar">{userData["first_name"][0]}</Avatar>
             <Box display={userOrgData['subscriptions'] === undefined ? "none": "block"}>
+                <Box>
+                    <Typography>{userOrgData['subscriptions']}</Typography>
+                    {Object.keys(data).map((id) => (
+                        <Box key={id}>
+                            {data[id]['charity_name'] === userOrgData['subscriptions'] ? <Typography>{data[id]['description']}</Typography>:null}
+                        </Box>
+                    ))}
+                    <Typography>Total amount donated ${userData["current_total"]}</Typography>
+                </Box>
             </Box>
             <Box display={userOrgData['subscriptions'] === undefined ? "block": "none"}>
                 <Typography>You have no organizations selected.</Typography>

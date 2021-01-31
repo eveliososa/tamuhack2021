@@ -11,7 +11,22 @@ export const UserCharityComponent = ({
 }) => {
 
     const handleCharitySelection = (charity_name, status) => {
-        fetch(`http://127.0.0.1:5000//api/addChar/${username}/${charity_name}`, {
+        fetch(`http://127.0.0.1:5000/api/addChar/${username}/${charity_name}`, {
+            crossDomain: true,
+            method: "GET",
+            headers: {"Content-Type":"application/json"}
+        }).then(response => {
+            if(response.ok){
+                return response.json();
+            }
+        }).then(data => {
+            console.log(data);
+            handleCharityData()
+        })
+    };
+
+    const handleCharityData = () => {
+        fetch(`http://127.0.0.1:5000/api/getDonation/${username}`, {
             crossDomain: true,
             method: "GET",
             headers: {"Content-Type":"application/json"}
@@ -22,7 +37,7 @@ export const UserCharityComponent = ({
         }).then(data => {
             console.log(data);
         })
-    };
+    }
 
     const [charityOptions, setCharityOptions] = React.useState([]);
     const handleCharityOptions = (data) => {
@@ -44,7 +59,7 @@ export const UserCharityComponent = ({
                             </IconButton>
                         </Box> : <Box className="charitySelectionContainer">
                             <IconButton onClick={() => handleCharitySelection(data[id]["charity_name"], !(data[id]["charity_name"] in userOrgData['subscriptions']))}>
-                                {data[id]["charity_name"] in userOrgData['subscriptions'] ?  <CancelIcon className="removeIcon"></CancelIcon> : <AddCircleIcon className="addIcon"></AddCircleIcon>}
+                                {data[id]["charity_name"] === userOrgData['subscriptions'] ?  <CancelIcon className="removeIcon"></CancelIcon> : <AddCircleIcon className="addIcon"></AddCircleIcon>}
                             </IconButton>
                         </Box>
                         }
