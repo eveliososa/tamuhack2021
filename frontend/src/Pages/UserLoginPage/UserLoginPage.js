@@ -23,17 +23,17 @@ export const UserLoginPage = () => {
             username,
             password,
         };
-        fetch('http://localhost:5000/api/loginUser', {
+        fetch("http://localhost:5000/api/loginUser", {
             crossDomain: true,
-            method: 'POST',
-            headers: {'Content-type': 'application/json'},
+            method: "POST",
+            headers: {"Content-type": "application/json"},
             body: JSON.stringify(body)
         }).then((response) => {
             if(response.ok){
                 return response.json();
             }
         }).then(data => {
-            if(data['status'] === true) {
+            if(data["status"] === true) {
                 window.location.href = `/user/${username}`;
             }
         })

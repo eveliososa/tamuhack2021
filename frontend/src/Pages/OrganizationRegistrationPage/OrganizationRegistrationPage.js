@@ -29,17 +29,17 @@ export const OrganizationRegistrationPage = () => {
             username,
             password,
         };
-        fetch('http://localhost:5000/api/registerOrganization', {
+        fetch("http://localhost:5000/api/registerOrganization", {
             crossDomain: true,
-            method: 'POST',
-            headers: {'Content-type': 'application/json'},
+            method: "POST",
+            headers: {"Content-type": "application/json"},
             body: JSON.stringify(body)
         }).then((response) => {
             if(response.ok){
                 return response.json();
             }
         }).then(data => {
-            if(data['status'] === true) {
+            if(data["status"] === true) {
                 window.location.href = `/organization/${username}`;
             }
         })

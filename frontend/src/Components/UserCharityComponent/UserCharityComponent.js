@@ -3,8 +3,8 @@ import "./UserCharityComponent.css"
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import CancelIcon from '@material-ui/icons/Cancel';
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import CancelIcon from "@material-ui/icons/Cancel";
 
 export const UserCharityComponent = () => {
     const [data, setData] = React.useState({
