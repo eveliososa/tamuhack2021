@@ -10,6 +10,7 @@ export const UserPage = () => {
     const { username } = useParams();
 
     const [userData, setUserData] = React.useState([]);
+    const [data, setData] = React.useState({});
 
     React.useEffect(() => {
         fetch(`http://127.0.0.1:5000/api/user/${username}`, {
@@ -22,8 +23,28 @@ export const UserPage = () => {
             }
         }).then(data => {
             setUserData(data);
+            getOrganizations();
         })
     }, [username]);
+
+    const getOrganizations = () => {
+        fetch(`http://127.0.0.1:5000/api/allOrganizations`, {
+            crossDomain: true,
+            method: "GET",
+            headers: {"Content-Type":"application/json"}
+        }).then(response => {
+            console.log(response)
+            if(response.ok){
+                return response.json();
+            } else{
+                return null;
+            }
+        }).then(data => {
+            if(data!==null){
+                setData(data);
+            }
+        });
+    };
 
     const pageOptions = ["Home", "Charities"];
 

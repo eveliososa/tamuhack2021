@@ -9,11 +9,11 @@ import TextField from "@material-ui/core/TextField";
 export const OrganizationMainComponent = ({
     organizationData, username
 }) => {
-    const [disableAddDescription, setDisabledAddDescription] = React.useState(organizationData["description"]!=="");
-    const [disableEditDescription, setDisabledEditDescription] = React.useState(organizationData["description"]==="");
+    const [disableAddDescription, setDisabledAddDescription] = React.useState(organizationData["description"]!==null);
+    const [disableEditDescription, setDisabledEditDescription] = React.useState(organizationData["description"]===null);
     const [updatingDescription, setUpdatingDescription] = React.useState(false);
-    const [description, setDescription] = React.useState(organizationData["description"]);
-    const [newDescription, setNewDescription] = React.useState(organizationData["description"]);
+    const [description, setDescription] = React.useState(organizationData["description"]===null?"":organizationData["description"]);
+    const [newDescription, setNewDescription] = React.useState(organizationData["description"]===null?"":organizationData["description"]);
 
     const handleAddDescription = () => {
         setUpdatingDescription(true);
@@ -34,9 +34,11 @@ export const OrganizationMainComponent = ({
         setDisabledEditDescription(false);
 
         const body = {
+            username,
             newDescription,
         };
-        fetch(`http://localhost:5000/api/organization//updateDescription/${username}`, {
+        console.log(body)
+        fetch("http://localhost:5000/api/organizationUpdateDescription", {
             crossDomain: true,
             method: "POST",
             headers: {"Content-type": "application/json"},
@@ -60,29 +62,26 @@ export const OrganizationMainComponent = ({
         setUpdatingDescription(false);
     }
 
-    console.log(updatingDescription)
-    console.log(disableEditDescription)
-    console.log(disableAddDescription)
     return(
         <Box className="organizationPageContainer">
-            <Typography className="organizationPageTitle">Welcome {organizationData["name"]}!</Typography>
-            <Avatar className="organizationPageAvatar">{organizationData["name"][0]}</Avatar>
+            <Typography className="organizationPageTitle">Welcome {organizationData["charity_name"]}!</Typography>
+            <Avatar className="organizationPageAvatar">{organizationData["charity_name"][0]}</Avatar>
             <Box className="organizationPageDataContainer">
                 <Box className="organizationPageIndividualDataContainer" boxShadow={2}>
                     <Typography className="organizationPageIndividualData">{organizationData["subscribers"]}</Typography>
                     <Typography className="organizationPageIndividualDataTitle">Subscribers</Typography>
                 </Box>
                 <Box className="organizationPageIndividualDataContainer" boxShadow={2}>
-                    <Typography className="organizationPageIndividualData">${organizationData["totalReceived"]}</Typography>
+                    <Typography className="organizationPageIndividualData">${organizationData["total_received"]}</Typography>
                     <Typography className="organizationPageIndividualDataTitle">Total Amount Donated</Typography>
                 </Box>
                 <Box className="organizationPageIndividualDataContainer" boxShadow={2}>
-                    <Typography className="organizationPageIndividualData">${organizationData["currentBalance"]}</Typography>
+                    <Typography className="organizationPageIndividualData">${organizationData["current_total"]}</Typography>
                     <Typography className="organizationPageIndividualDataTitle">Current Balance</Typography>
                 </Box>
             </Box>
             <Box className="organizationPageDescriptionContainer">
-                <Typography className="organizationPageDescriptionEditTitle">Organization"s Description:</Typography>
+                <Typography className="organizationPageDescriptionEditTitle">Organization's Description:</Typography>
                 <Box className="organizationPageDescriptionAddContainer" display={!disableAddDescription && !updatingDescription ? "block" : "none"}>
                 <Typography className="organizationPageDescription">You have not set a description for your organization yet. Click the button below to add one.</Typography>
                     <Button size="large" variant="contained" color="primary" onClick={() => handleAddDescription()}>Add Description</Button>

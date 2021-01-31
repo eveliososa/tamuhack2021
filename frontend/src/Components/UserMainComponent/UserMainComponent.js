@@ -8,7 +8,7 @@ import Avatar from '@material-ui/core/Avatar'
 export const UserMainComponent = () => {
     const [data, setData] = React.useState({
         "userName" : "James",
-        "userAvatar": "C:\Users\klat6\OneDrive\Documents\GitHub\tamuhack2021\frontend\src\Components\UserMainComponent\dog.PNG",
+        "userAvatar": "dog.PNG",
         "organizations" : { 
             "1" : {
                 "name": "Organization 1",
