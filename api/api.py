@@ -1,7 +1,12 @@
-from flask import Flask
+from flask import Flask, request
+from flask_cors import CORS, cross_origin
 from database import DB
 
 app = Flask(__name__)
+
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 myDB = DB()
 myDB.dropTable("user_accounts")
 myDB.dropTable("charity_accounts")
@@ -30,18 +35,16 @@ def getOrganizationData(id):
     }
 
 
-@app.route('/api/registerUser', methods=['POST', 'GET'])
-def createUser(username, password):
-    return {
-        myDB.addUser(username, password)
-    }
-
+@app.route('/api/registerUser', methods=['POST'])
+@cross_origin()
+def createUser():
+    data = request.get_json()
+    return {"status":myDB.addUser(data['firstName'], data['lastName'], data['username'], data['password'])}
 
 @app.route('/api/registerOrganization', methods=['POST', 'GET'])
 def createOrganization(charity_name, password):
-    return {
-        myDB.addCharity(charity_name, password)
-    }
+    data = request.get_json()
+    return {"status":myDB.addCharity(data['organizationName'], data['username'], data['password'])}
 
 
 if __name__ == '__main__':
