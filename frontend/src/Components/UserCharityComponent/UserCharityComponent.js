@@ -1,11 +1,7 @@
 import * as React from "react";
+import "./UserCharityComponent.css"
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import Button from '@material-ui/core/Button';
 import IconButton from "@material-ui/core/IconButton";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -48,23 +44,23 @@ export const UserCharityComponent = () => {
     const [charityOptions, setCharityOptions] = React.useState([]);
     const handleCharityOptions = (data) => {
         setCharityOptions(
-            <Box>
+            <Box className="charityPageContainer">
                 {Object.keys(data).map((id) => (
-                    <Card key={id}>
-                        <CardActionArea>
-                            <CardContent>
-                                <Typography>{data[id]["name"]}</Typography>
-                                <Typography>Total donations: ${data[id]["amount"]}</Typography>
-                                <Typography>{data[id]["description"]}</Typography>
-                            </CardContent>
-                        </CardActionArea>
-                        <CardActions>
-                            <Button size="small" disabled>{data[id]["subscribers"]}</Button>
-                            <IconButton size="small" onClick={() => handleCharitySelection(id, !data[id]["subscribed"])}>
-                                {data[id]["subscribed"] ?  <CancelIcon></CancelIcon> : <AddCircleIcon></AddCircleIcon>}
+                    <Box boxShadow={3} className="charityContainer" key={id}>
+                        <Box className="charityInfoContainer">
+                            <Typography className="charityName">{data[id]["name"]}</Typography>
+                            <Typography className="charityAmount">Total donations: ${data[id]["amount"]}</Typography>
+                            <Typography className="charityDescription">{data[id]["description"]}</Typography>
+                            <Box boxShadow={2} className="charitySubscribersContainer">
+                                <Typography className="charitySubscribers">{data[id]["subscribers"]}</Typography>
+                            </Box>
+                        </Box>
+                        <Box className="charitySelectionContainer">
+                            <IconButton onClick={() => handleCharitySelection(id, !data[id]["subscribed"])}>
+                                {data[id]["subscribed"] ?  <CancelIcon className="removeIcon"></CancelIcon> : <AddCircleIcon className="addIcon"></AddCircleIcon>}
                             </IconButton>
-                        </CardActions>
-                    </Card>
+                        </Box>
+                    </Box>
                 ))}
             </Box>
         );

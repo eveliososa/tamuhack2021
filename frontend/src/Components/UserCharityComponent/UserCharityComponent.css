@@ -1,1 +1,58 @@
+.charityPageContainer {
+    margin: 20px auto;
+    padding: 10px;
+    width: 70%;
+    align-items: center;
+}
+.charityContainer{
+    max-width: 700px;
+    margin: 20px auto;
+    width: 100%;
+    border-radius: 5px;
+    background: #E1E1E1;
+    display: grid;
+    grid-template-columns: 80% 20%;
+}
+.charityInfoContainer{
+    text-align: left;
+    padding: 20px;
+}
+.charityName{
+    margin: 0px 0px 2px 0px !important;
+    font-size: 17px !important;
+    font-weight: 600 !important;
+}
+.charityAmount{
+    margin: 0px 0px 3px 0px !important;
+    font-size: 14px !important;
+    font-weight: 300 !important;
+}
+.charityDescription{
+    margin: 0px 0px 7px 0px !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+}
+.charitySelectionContainer{
+    text-align: right;
+    align-items: right;
+    padding: 20px;
+}
+.charitySubscribersContainer{
+    display: inline-block;
+    padding: 3px 7px;
+    border-radius: 3px;
+    background-color: #FFC107;
+}
+.charitySubscribers{
+    font-size: 12px !important;
+    font-weight: 500 !important;
+}
+.addIcon{
+    font-size: 60px !important;
+    color: #28A745 !important;
+}
+.removeIcon{
+    font-size: 60px !important;
+    color: #DC3545 !important;
+}
 
