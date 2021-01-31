@@ -54,14 +54,14 @@ class DB:
             "SELECT * FROM user_accounts WHERE username='" + str(username) + "';")
         result = self.mycursor.fetchall()
         self.commitDB()
-        return json.dumps(result)
+        return result
 
     def getCharityData(self, username):
         self.mycursor.execute(
             "SELECT * FROM charity_accounts WHERE username='" + str(username) + "';")
         result = self.mycursor.fetchall()
         self.commitDB()
-        return json.dumps(result)
+        return result
 
     def addCharity(self, charity_name, username, password):
         self.mycursor.execute(
@@ -201,7 +201,7 @@ class DB:
         self.mycursor.execute(command)
         result = self.mycursor.fetchall()
         self.commitDB()
-        return json.dumps(result)
+        return result
 
     def getCharityBank(self, username):
         command = "SELECT bank_account FROM charity_accounts WHERE username='" + \
@@ -209,7 +209,7 @@ class DB:
         self.mycursor.execute(command)
         result = self.mycursor.fetchall()
         self.commitDB()
-        return json.dumps(result)
+        return result
 
     def getUserGoal(self, username):
         command = "SELECT goal FROM user_accounts WHERE username='" + \
@@ -217,7 +217,7 @@ class DB:
         self.mycursor.execute(command)
         result = self.mycursor.fetchall()
         self.commitDB()
-        return json.dumps(result)
+        return result
 
     def getUserTotal(self, username):
         command = "SELECT current_total FROM user_accounts WHERE username='" + \
@@ -225,7 +225,7 @@ class DB:
         self.mycursor.execute(command)
         result = self.mycursor.fetchall()
         self.commitDB()
-        return json.dumps(result)
+        return result
 
     def getCharityTotal(self, username):
         command = "SELECT current_total FROM charity_accounts WHERE username='" + \
@@ -233,14 +233,14 @@ class DB:
         self.mycursor.execute(command)
         result = self.mycursor.fetchall()
         self.commitDB()
-        return json.dumps(result)
+        return result
 
     def getAllCharities(self):
         command = "SELECT charity_name FROM charity_accounts;"
         self.mycursor.execute(command)
         result = self.mycursor.fetchall()
         self.commitDB()
-        return json.dumps(result)
+        return result
 
     def removeUser(self, username):
         self.mycursor.execute(
