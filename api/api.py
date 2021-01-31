@@ -107,13 +107,14 @@ def createOrganization():
     return {"status": myDB.addCharity(data['organizationName'], data['username'], data['password'])}
 
 
-@app.route('/api/userOrganizations/<username>', methods=['POST'])
+@app.route('/api/userOrganizations/<username>', methods=['GET'])
 @cross_origin()
 def getUserOrganizations(username):
-    val = myDB.getUserCharity(username)[0]['charity_id_percent']
-    return {
-        'subscriptions': json.loads(val).keys()
-    }
+    results = myDB.getUserCharity(username)[0]['charity_id_percent']
+    if results is None:
+        return { 'subscriptions': [] }
+    else:
+       return {'subscriptions': list(json.loads(results).keys())}
 
 
 @app.route('/api/allOrganizations', methods=['GET'])
@@ -127,7 +128,6 @@ def getCharities():
             entry['charity_name'])[0]['description']
         entry['total_received'] = myDB.getCharityData(
             entry['charity_name'])[0]['total_received']
-        print("In here")
         entry['subcriptions'] = myDB.getSubCount(entry['charity_name'])
 
     for entry in data:
