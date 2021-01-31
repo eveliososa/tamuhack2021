@@ -42,8 +42,8 @@ class DB:
                    "password VARCHAR(255) NOT NULL, ",
                    "bank_account INT, ",
                    "current_total INT NOT NULL, ",
-                   "description VARCHAR(MAX) DEFAULT '', ",
-                   "total_received INT NOT NULL DEFAULT 0, ",
+                   "description VARCHAR(MAX) DEFAULT, ",
+                   "total_received INT NOT NULL, ",
                    "PRIMARY KEY (charity_id)"
                    ");"]
         self.mycursor.execute("".join(command))
@@ -69,11 +69,13 @@ class DB:
                        "username, ",
                        "password, ",
                        "current_total",
+                       "total_received",
                        ") VALUES (",
                        "'" + str(charity_name) + "', ",
                        "'" + str(username) + "', ",
                        "'" + str(password) + "', ",
-                       "0",
+                       "0, ",
+                       "0"
                        ");"]
             self.mycursor.execute("".join(command))
             self.commitDB()
