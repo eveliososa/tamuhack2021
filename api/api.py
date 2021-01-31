@@ -12,27 +12,39 @@ myDB.dropTable("user_accounts")
 myDB.dropTable("charity_accounts")
 myDB.createUserTable()
 myDB.createCharitiesTable()
-myDB.addCharity('BLM', 'password')
-myDB.addUser('Mel', 'password')
-myDB.addUser('Kai', 'password')
-myDB.updateUserCharities('Mel', {'BLM': 50, 'ABC': 50})
-myDB.updateUserCharities('Kai', {'BLM': 50, 'ABC': 50})
-myDB.getSubCount('BLM')
+
+# myDB.addCharity('BLM', 'blm', 'password')
+# myDB.addUser('Mellisa', 'Perez', 'Mel', 'password')
+# myDB.addUser('Kai', 'Gomes', 'kg', 'password')
+# myDB.updateUserCharities('Mel', {'BLM': 50, 'ABC': 50})
+# myDB.updateUserCharities('kg', {'BLM': 50, 'ABC': 50})
+# myDB.getSubCount('BLM')
 
 # Note id is username for all of the route functions
 
 
 @app.route('/api/user/<username>', methods=['GET'])
-def getUserData(id):
+@cross_origin()
+def getUserData(username):
     return {
         myDB.getUserData(username)
     }
 
 
 @app.route('/api/organization/<username>', methods=['GET'])
-def getOrganizationData(id):
+@cross_origin()
+def getOrganizationData(username):
     return {
         myDB.getCharityData(username)
+    }
+
+
+@app.route('/api/organization/updateDescription/<username>', methods=['GET'])
+@cross_origin()
+def updateDescription(username):
+    data = request.get_json()
+    return {
+        myDB.updateCharityDescription(username, data['description'])
     }
 
 
@@ -44,6 +56,7 @@ def createUser():
 
 
 @app.route('/api/registerOrganization', methods=['POST', 'GET'])
+@cross_origin()
 def createOrganization(charity_name, password):
     data = request.get_json()
     return {"status": myDB.addCharity(data['organizationName'], data['username'], data['password'])}
