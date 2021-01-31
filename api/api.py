@@ -12,8 +12,8 @@ CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 myDB = DB()
-myDB.dropTable("user_accounts")
-myDB.dropTable("charity_accounts")
+# myDB.dropTable("user_accounts")
+# myDB.dropTable("charity_accounts")
 myDB.createUserTable()
 myDB.createCharitiesTable()
 
