@@ -95,7 +95,7 @@ export const UserPage = () => {
                 <UserMainComponent userData={userData} data={data} userOrgData={userOrgData}/>
             </Box>
             <Box display={page === pageOptions[1] ? "block" : "none"}>
-                <UserCharityComponent data={data} userOrgData={userOrgData}/>
+                <UserCharityComponent data={data} userOrgData={userOrgData} username={username}/>
             </Box>
         </Box>
     );

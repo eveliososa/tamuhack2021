@@ -7,11 +7,21 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import CancelIcon from "@material-ui/icons/Cancel";
 
 export const UserCharityComponent = ({
-    data, userOrgData,
+    data, userOrgData, username,
 }) => {
 
-    const handleCharitySelection = (username, status) => {
-        console.log(username)
+    const handleCharitySelection = (charity_name, status) => {
+        fetch(`http://127.0.0.1:5000//api/addChar/${username}/${charity_name}`, {
+            crossDomain: true,
+            method: "GET",
+            headers: {"Content-Type":"application/json"}
+        }).then(response => {
+            if(response.ok){
+                return response.json();
+            }
+        }).then(data => {
+            console.log(data);
+        })
     };
 
     const [charityOptions, setCharityOptions] = React.useState([]);
