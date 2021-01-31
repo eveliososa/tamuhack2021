@@ -26,9 +26,30 @@ export const UserRegistrationPage = () => {
         setPassword(e.target.value);
     }
 
+    const validForm = firstName && lastName && username && password;
+
     const handleSubmit = () => {
-        console.log("Registering user!");
-    }
+        const body = {
+            firstName,
+            lastName,
+            username,
+            password,
+        };
+        fetch("http://localhost:5000/api/registerUser", {
+            crossDomain: true,
+            method: "POST",
+            headers: {"Content-type": "application/json"},
+            body: JSON.stringify(body)
+        }).then((response) => {
+            if(response.ok){
+                return response.json();
+            }
+        }).then(data => {
+            if(data["status"] === true) {
+                window.location.href = `/user/${username}`;
+            }
+        })
+    };
 
     return(
         <Box className="userRegistrationContainer">
@@ -46,7 +67,7 @@ export const UserRegistrationPage = () => {
                 <Box className="userRegistrationFormFieldContainer">
                     <TextField className="userRegistrationFormField" id="password" required label="Password" type="password" value={password} onChange={handlePasswordChange} variant="outlined"/>
                 </Box>
-                <Button size="large" variant="contained" color="primary" onClick={() => handleSubmit()}>Register</Button>
+                <Button size="large" variant="contained" color="primary" onClick={() => handleSubmit()} disabled={!validForm}>Register</Button>
             </Box>
         </Box>
     );
