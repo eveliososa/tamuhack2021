@@ -4,7 +4,7 @@
 }
 .homePageNavigationContainer{
     margin: 0px !important;
-    padding: 40px 0px !important;
+    padding: 25px 0px !important;
     background-color: #154360;
     display: grid;
     grid-template-columns: 50% 50%;
