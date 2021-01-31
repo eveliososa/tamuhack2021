@@ -147,8 +147,8 @@ class DB:
         self.commitDB()
         return json.dumps(result)
 
-    def allCharityPercent(self, user_id):
-        command = "SELECT charity_percent FROM user_accounts WHERE user_id=" + \
+    def getAllCharityPercent(self, user_id):
+        command = "SELECT SUM(charity_percent) FROM user_accounts WHERE user_id=" + \
             str(user_id) + ";"
         self.mycursor.execute(command)
         result = self.mycursor.fetchall()
