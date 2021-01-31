@@ -43,7 +43,7 @@ class DB:
                    "bank_account INT, ",
                    "current_total FLOAT NOT NULL, ",
                    "description VARCHAR(8000), ",
-                   "total_received INT NOT NULL, ",
+                   "total_received FLOAT NOT NULL, ",
                    "PRIMARY KEY (charity_id)"
                    ");"]
         self.mycursor.execute("".join(command))
@@ -163,9 +163,9 @@ class DB:
                               str(description) + "' WHERE username='" + str(username) + "';")
         self.commitDB()
 
-    def updateCharityTotalReceived(self, username, total_received):
-        self.mycursor.execute("UPDATE user_accounts SET total_received ="
-                              + str(total_received) + " WHERE username='" + str(username) + "';")
+    def updateCharityTotalReceived(self, charity_name, total_received):
+        self.mycursor.execute("UPDATE charity_accounts SET total_received="
+                              + str(total_received) + " WHERE charity_name='" + str(charity_name) + "';")
         self.commitDB()
 
     def updateUserTotal(self, username, current_total):

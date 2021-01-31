@@ -33,6 +33,8 @@ def processTransactions():
         amount += (ceil(val['amount']) - val['amount'])
     return round(amount, 2)
 
+# Need to be Moved
+
 
 def getDonation(username):
     donation = processTransactions()
@@ -42,13 +44,17 @@ def getDonation(username):
         username)[0]['charity_id_percent'])  # json with mapping
     for k, v in output.items():
         current_charity = myDB.getCharityTotal(k)[0]['current_total']
-        myDB.updateCharTotal(k, current_charity + round(v * .01 * donation, 2))
+        val = current_charity + round(v * .01 * donation, 2)
+        myDB.updateCharTotal(k, val)
+        myDB.updateCharityTotalReceived(k, val)
 
 
 myDB.addCharity('BLM', 'blm', 'password')
 myDB.addCharity('ABC', 'abc', 'password')
 myDB.addUser('Mellisa', 'Perez', 'Mel', 'password')
 myDB.addUser('Kai', 'Gomes', 'kg', 'password')
+myDB.updateCharityDescription('BLM', 'Black Lives Matter')
+myDB.updateCharityDescription('ABC', 'Alphabet')
 myDB.updateUserCharities('Mel', {'BLM': 50, 'ABC': 50})
 myDB.updateUserCharities('kg', {'BLM': 50, 'ABC': 50})
 getDonation('kg')
@@ -63,6 +69,7 @@ def getUserData(username):
     print(data)
     return data
 
+
 @ app.route('/api/organization/<username>', methods=['GET'])
 @ cross_origin()
 def getOrganizationData(username):
@@ -70,12 +77,13 @@ def getOrganizationData(username):
     data['subscribers'] = myDB.getSubCount(data['charity_name'])
     return data
 
+
 @app.route('/api/organizationUpdateDescription', methods=['POST'])
 @cross_origin()
 def updateDescription():
     data = request.get_json()
     myDB.updateCharityDescription(data['username'], data['newDescription'])
-    return {"status":True}
+    return {"status": True}
 
 
 @ app.route('/api/registerUser', methods=['POST'])
@@ -91,10 +99,17 @@ def createOrganization():
     data = request.get_json()
     return {"status": myDB.addCharity(data['organizationName'], data['username'], data['password'])}
 
+
 @app.route('/api/allOrganizations', methods=['GET'])
 @cross_origin()
 def getCharities():
-    data = myDB.getAllCharities()[0]
+    data = myDB.getAllCharities()
+    for entry in data:
+        entry['description'] = myDB.getCharityData(
+            entry['charity_name'])[0]['description']
+        entry['total_received'] = myDB.getCharityData(
+            entry['charity_name'])[0]['total_received']
+        entry['subcriptions'] = myDB.getSubCount(entry['charity_name'])
     print(data)
     return data
 
