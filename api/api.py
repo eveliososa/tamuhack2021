@@ -12,8 +12,8 @@ CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 myDB = DB()
-# myDB.dropTable("user_accounts")
-# myDB.dropTable("charity_accounts")
+myDB.dropTable("user_accounts")
+myDB.dropTable("charity_accounts")
 myDB.createUserTable()
 myDB.createCharitiesTable()
 
@@ -69,6 +69,12 @@ getDonation('kg')
 # Note id is username for all of the route functions
 
 
+@app.route('/api/donation/<username>', methods=['POST'])
+@cross_origin()
+def processDonation(username):
+    getDonation(username)
+
+
 @app.route('/api/user/<username>', methods=['GET'])
 @cross_origin()
 def getUserData(username):
@@ -112,9 +118,9 @@ def createOrganization():
 def getUserOrganizations(username):
     results = myDB.getUserCharity(username)[0]['charity_id_percent']
     if results is None:
-        return { 'subscriptions': [] }
+        return {'subscriptions': []}
     else:
-       return {'subscriptions': list(json.loads(results).keys())}
+        return {'subscriptions': list(json.loads(results).keys())}
 
 
 @app.route('/api/allOrganizations', methods=['GET'])
