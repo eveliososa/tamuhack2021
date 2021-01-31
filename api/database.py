@@ -4,6 +4,7 @@ import mysql.connector
 
 class DB:
     def __init__(self):
+        # IP Adress must be added to Google Cloud Platform in order to access
         self.mydb = mysql.connector.connect(
             host="34.122.158.6", user="root", password="tamuhack2021")
         self.mycursor = self.mydb.cursor(dictionary=True, buffered=True)
@@ -22,7 +23,7 @@ class DB:
                    "user_id INT NOT NULL AUTO_INCREMENT, ",
                    "username VARCHAR(255) NOT NULL, ",
                    "password VARCHAR(255) NOT NULL, ",
-                   "bank_account INT NOT NULL, ",
+                   "bank_account INT, ",
                    "charity_id_percent JSON, ",
                    "current_total INT NOT NULL, ",
                    "goal INT, ",
@@ -36,14 +37,24 @@ class DB:
                    "charity_id INT NOT NULL AUTO_INCREMENT, ",
                    "charity_name VARCHAR(255) NOT NULL, ",
                    "password VARCHAR(255), ",
-                   "bank_account INT NOT NULL, ",
+                   "bank_account INT, ",
                    "current_total INT NOT NULL, ",
                    "PRIMARY KEY (charity_id)"
                    ");"]
         self.mycursor.execute("".join(command))
         self.commitDB()
 
-    def addCharity(self, charity_name, password, bank_account):
+    def getUserData(self, username):
+        self.mycursor.execute(
+            "SELECT * FROM user_accounts WHERE username='" + str(username) + "';")
+        self.commitDB()
+
+    def getCharityData(self, charity_name):
+        self.mycursor.execute(
+            "SELECT * FROM charity_accounts WHERE charity_name='" + str(charity_name) + "';")
+        self.commitDB()
+
+    def addCharity(self, charity_name, password):
         self.mycursor.execute(
             "SELECT charity_name from charity_accounts WHERE charity_id='" + str(charity_name) + "';")
 
@@ -51,12 +62,10 @@ class DB:
             command = ["INSERT INTO charity_accounts (",
                        "charity_name, ",
                        "password, ",
-                       "bank_account, ",
                        "current_total",
                        ") VALUES (",
                        "'" + str(charity_name) + "', ",
                        "'" + str(password) + "', ",
-                       str(bank_account) + ", ",
                        "0",
                        ");"]
             self.mycursor.execute("".join(command))
@@ -65,7 +74,7 @@ class DB:
         else:
             return False
 
-    def addUser(self, username, password, bank_account):
+    def addUser(self, username, password):
         # Checks to see if user already in database
         self.mycursor.execute(
             "SELECT username from user_accounts WHERE username='" + str(username) + "';")
@@ -75,12 +84,10 @@ class DB:
             command = ["INSERT INTO user_accounts (",
                        "username, ",
                        "password, ",
-                       "bank_account, ",
                        "current_total ",
                        ") VALUES (",
                        "'" + str(username) + "', ",
                        "'" + str(password) + "', ",
-                       str(bank_account) + ", ",
                        "0",
                        ");"]
             self.mycursor.execute("".join(command))
@@ -89,7 +96,7 @@ class DB:
         else:
             return False
 
-    def UserinDB(self, username):
+    def userInDB(self, username):
         self.mycursor.execut("SELECT * FROM user_accounts WHERE username='" +
                              str(username) + "';")
         if self.mycursor.rowcount > 0:
@@ -97,7 +104,7 @@ class DB:
         else:
             return False
 
-    def CharityinDB(self, charity_name):
+    def charityInDB(self, charity_name):
         self.mycursor.execut("SELECT * FROM charity_accounts WHERE charity_name='" +
                              str(charity_name) + "';")
         if self.mycursor.rowcount > 0:

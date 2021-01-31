@@ -7,38 +7,40 @@ myDB.dropTable("user_accounts")
 myDB.dropTable("charity_accounts")
 myDB.createUserTable()
 myDB.createCharitiesTable()
-myDB.addCharity('BLM', 'password', 2)
-myDB.addUser('Mel', 'password', 3)
-myDB.addUser('Kai', 'password', 2)
+myDB.addCharity('BLM', 'password')
+myDB.addUser('Mel', 'password')
+myDB.addUser('Kai', 'password')
 myDB.updateUserCharities('Kai', {'BML': 50, 'ABC': 50})
 myDB.getAllCharities()
+
+# Note id is username for all of the route functions
 
 
 @app.route('/api/user/<id>', methods=['GET'])
 def getUserData(id):
     return {
-        'name': 'Hello World'
+        myDB.getUserData(id)
     }
 
 
 @app.route('/api/organization/<id>', methods=['GET'])
 def getOrganizationData(id):
     return {
-        'name': 'Hello World'
+        myDB.getCharityData(id)
     }
 
 
 @app.route('/api/registerUser', methods=['POST', 'GET'])
-def createUser():
+def createUser(username, password):
     return {
-        'name': 'Hello World'
+        myDB.addUser(username, password)
     }
 
 
 @app.route('/api/registerOrganization', methods=['POST', 'GET'])
-def createOrganization():
+def createOrganization(charity_name, password):
     return {
-        'name': 'Hello World'
+        myDB.addCharity(charity_name, password)
     }
 
 
