@@ -4,3 +4,4 @@ frontend/.eslintcache
 .DS_Store
 api/venv
 *vscode
+api/__pycache__

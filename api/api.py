@@ -10,6 +10,7 @@ myDB.createCharitiesTable()
 myDB.addCharity(0, 'BLM', 'password', 2)
 myDB.addUser(1, 'Mel', 'password', 3)
 myDB.addUser(2, 'Kai', 'password', 2)
+myDB.getAllCharities()
 
 
 @app.route('/', methods=['GET'])
