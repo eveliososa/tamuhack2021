@@ -99,9 +99,15 @@ def createOrganization():
     data = request.get_json()
     return {"status": myDB.addCharity(data['organizationName'], data['username'], data['password'])}
 
+
 @app.route('/api/userOrganizations/<username>', methods=['POST'])
 @cross_origin()
 def getUserOrganizations(username):
+    val = myDB.getUserCharity(username)[0]['charity_id_percent']
+    return {
+        'subscriptions': json.loads(val).keys()
+    }
+
 
 @app.route('/api/allOrganizations', methods=['GET'])
 @cross_origin()
@@ -110,15 +116,17 @@ def getCharities():
     count = 1
     template = {}
     for entry in data:
-        entry['description'] = myDB.getCharityData(entry['charity_name'])[0]['description']
-        entry['total_received'] = myDB.getCharityData(entry['charity_name'])[0]['total_received']
+        entry['description'] = myDB.getCharityData(
+            entry['charity_name'])[0]['description']
+        entry['total_received'] = myDB.getCharityData(
+            entry['charity_name'])[0]['total_received']
         print("In here")
         entry['subcriptions'] = myDB.getSubCount(entry['charity_name'])
-    
+
     for entry in data:
         template[str(count)] = entry
         count += 1
-    
+
     print(template)
     return template
 
