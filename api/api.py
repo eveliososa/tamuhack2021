@@ -52,12 +52,12 @@ myDB.updateUserCharities(
     'Mel', {'The Hunger Project': 50, 'PetSmart Charities': 50})
 myDB.updateUserCharities('kg', {'American Wildlife Foundation': 10,
                                 'The Hunger Project': 50, 'PetSmart Charities': 40})
-getDonation('kg')
 
 # Note id is username for all of the route functions
 
 
 @app.route('/api/getDonation/<username>', methods=['GET'])
+@cross_origin()
 def getDonation(username):
     donation = processTransactions()
     current_total = myDB.getUserTotal(username)[0]['current_total']
