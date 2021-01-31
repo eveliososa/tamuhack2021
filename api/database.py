@@ -1,22 +1,12 @@
 import json
 import mysql.connector
-# from flask import Flask
-# from flaskext.mysql import MySQL
 
 
 class DB:
     def __init__(self):
-        # initialize connection to Cloud MySQL server
-        # app.config['MYSQL_HOST'] = '34.122.158.6'
-        # app.config['MYSQL_USER'] = 'root'
-        # app.config['MYSQL_PASSWORD'] = 'tamuhack2021'
-        # app.config['MYSQL_DB'] = 'tamuhack'
-        # self.mysql = MySQL()
-        # self.mysql.init_app(app)
-        # self.mycursor = self.mysql.get_db().cursor()
         self.mydb = mysql.connector.connect(
             host="34.122.158.6", user="root", password="tamuhack2021")
-        self.mycursor = self.mydb.cursor(dictionary=True)
+        self.mycursor = self.mydb.cursor(dictionary=True, buffered=True)
         self.mycursor.execute('USE tamuhack;')
 
     def commitDB(self):
@@ -26,29 +16,44 @@ class DB:
         self.mycursor.execute("DROP TABLE IF EXISTS " + str(table_name) + ";")
         self.commitDB()
 
-    def createCharitiesTable(self):
-        command = ["CREATE TABLE IF NOT EXISTS charity_accounts ("
-                   "charity_id INT NOT NULL, ",
-                   "charity_name VARCHAR(255) NOT NULL, ",
-                   "password VARCHAR(255), ",
+    def createUserTable(self):
+        # create user_accounts table if not already in database
+        command = ["CREATE TABLE IF NOT EXISTS user_accounts ("
+                   "user_id INT NOT NULL AUTO_INCREMENT, ",
+                   "username VARCHAR(255) NOT NULL, ",
+                   "password VARCHAR(255) NOT NULL, ",
                    "bank_account INT NOT NULL, ",
-                   "current_total INT NOT NULL",
+                   "charity_id_percent JSON, ",
+                   "current_total INT NOT NULL, ",
+                   "goal INT, ",
+                   "PRIMARY KEY (user_id)"
                    ");"]
         self.mycursor.execute("".join(command))
         self.commitDB()
 
-    def addCharity(self, charity_id, charity_name, password, bank_account):
+    def createCharitiesTable(self):
+        command = ["CREATE TABLE IF NOT EXISTS charity_accounts ("
+                   "charity_id INT NOT NULL AUTO_INCREMENT, ",
+                   "charity_name VARCHAR(255) NOT NULL, ",
+                   "password VARCHAR(255), ",
+                   "bank_account INT NOT NULL, ",
+                   "current_total INT NOT NULL, ",
+                   "PRIMARY KEY (charity_id)"
+                   ");"]
+        self.mycursor.execute("".join(command))
+        self.commitDB()
+
+    def addCharity(self, charity_name, password, bank_account):
         self.mycursor.execute(
-            "SELECT charity_id from charity_accounts WHERE charity_id=" + str(charity_id) + ";")
+            "SELECT charity_name from charity_accounts WHERE charity_id='" + str(charity_name) + "';")
 
         if self.mycursor.rowcount == 0:
             command = ["INSERT INTO charity_accounts (",
-                       "charity_id, ",
                        "charity_name, ",
                        "password, ",
                        "bank_account, ",
                        "current_total",
-                       ") VALUES (" + str(charity_id) + ", ",
+                       ") VALUES (",
                        "'" + str(charity_name) + "', ",
                        "'" + str(password) + "', ",
                        str(bank_account) + ", ",
@@ -60,51 +65,19 @@ class DB:
         else:
             return False
 
-    def createUserTable(self):
-        # create user_accounts table if not already in database
-        command = ["CREATE TABLE IF NOT EXISTS user_accounts ("
-                   "user_id INT NOT NULL, ",
-                   "username VARCHAR(255) NOT NULL, ",
-                   "password VARCHAR(255) NOT NULL, ",
-                   "bank_account INT NOT NULL, ",
-                   "charity_id INT, ",
-                   "charity_percentage TINYINT, ",
-                   "current_total INT NOT NULL, ",
-                   "goal INT",
-                   ");"]
-        self.mycursor.execute("".join(command))
-        self.commitDB()
-
-    def validateCharityLogin(self, charity_id, password):
-        self.mycursor.execut("SELECT * FROM charity_accounts WHERE charity_id=" +
-                             str(charity_id) + " AND password=" + str(password) + ";")
-        if self.mycursor.rowcount > 0:
-            return True
-        else:
-            return False
-
-    def validateUserLogin(self, user_id, password):
-        self.mycursor.execut("SELECT * FROM user_accounts WHERE user_id=" +
-                             str(user_id) + " AND password=" + str(password) + ";")
-        if self.mycursor.rowcount > 0:
-            return True
-        else:
-            return False
-
-    def addUser(self, user_id, username, password, bank_account):
+    def addUser(self, username, password, bank_account):
         # Checks to see if user already in database
         self.mycursor.execute(
-            "SELECT user_id from user_accounts WHERE user_id=" + str(user_id) + ";")
+            "SELECT username from user_accounts WHERE username='" + str(username) + "';")
 
         # If not inserts into database and returns True
         if self.mycursor.rowcount == 0:
             command = ["INSERT INTO user_accounts (",
-                       "user_id, ",
                        "username, ",
                        "password, ",
                        "bank_account, ",
                        "current_total ",
-                       ") VALUES (" + str(user_id) + ", ",
+                       ") VALUES (",
                        "'" + str(username) + "', ",
                        "'" + str(password) + "', ",
                        str(bank_account) + ", ",
@@ -116,25 +89,106 @@ class DB:
         else:
             return False
 
-    def getBankInfo(self, user_id):
-        command = "SELECT bank_account FROM user_accounts WHERE user_id=" + \
-            str(user_id) + ";"
+    def UserinDB(self, username):
+        self.mycursor.execut("SELECT * FROM user_accounts WHERE username='" +
+                             str(username) + "';")
+        if self.mycursor.rowcount > 0:
+            return True
+        else:
+            return False
+
+    def CharityinDB(self, charity_name):
+        self.mycursor.execut("SELECT * FROM charity_accounts WHERE charity_name='" +
+                             str(charity_name) + "';")
+        if self.mycursor.rowcount > 0:
+            return True
+        else:
+            return False
+
+    def validateCharityLogin(self, charity_name, password):
+        self.mycursor.execut("SELECT * FROM charity_accounts WHERE charity_name='" +
+                             str(charity_name) + "' AND password=" + str(password) + ";")
+        if self.mycursor.rowcount > 0:
+            return True
+        else:
+            return False
+
+    def validateUserLogin(self, username, password):
+        self.mycursor.execut("SELECT * FROM user_accounts WHERE username='" +
+                             str(username) + "' AND password=" + str(password) + ";")
+        if self.mycursor.rowcount > 0:
+            return True
+        else:
+            return False
+
+    def updateUserCharities(self, username, charity_json):
+        self.mycursor.execute("UPDATE user_accounts SET charity_id_percent = '"
+                              + json.dumps(charity_json) + "' WHERE username='" + str(username) + "';")
+        self.commitDB()
+
+    def updateUserTotal(self, username, current_total):
+        self.mycursor.execute("UPDATE user_accounts SET current_total ="
+                              + str(current_total) + " WHERE username='" + str(username) + "';")
+
+    def updateUserGoal(self, username, goal):
+        self.mycursor.execute("UPDATE user_accounts SET goal ="
+                              + str(goal) + " WHERE username='" + str(username) + "';")
+
+    def updateUserPassword(self, username, password):
+        self.mycursor.execute("UPDATE user_accounts SET password ='"
+                              + str(password) + "' WHERE username='" + str(username) + "';")
+
+    def updateUserBank(self, username, bank_account):
+        self.mycursor.execute("UPDATE user_accounts SET bank_account ="
+                              + str(bank_account) + " WHERE username='" + str(username) + "';")
+
+    def updateCharityPassword(self, charity_name, password):
+        self.mycursor.execute("UPDATE charity_accounts SET password ='"
+                              + str(password) + "' WHERE charity_name='" + str(charity_name) + "';")
+
+    def updateCharityBank(self, charity_name, bank_account):
+        self.mycursor.execute("UPDATE charity_accounts SET bank_account ="
+                              + str(bank_account) + " WHERE charity_name='" + str(charity_name) + "';")
+
+    def updateCharTotal(self, charity_name, current_total):
+        self.mycursor.execute("UPDATE charity_accounts SET current_total ="
+                              + str(current_total) + " WHERE charity_name='" + str(charity_name) + "';")
+
+    def getUserBank(self, username):
+        command = "SELECT bank_account FROM user_accounts WHERE username='" + \
+            str(username) + "';"
         self.mycursor.execute(command)
         result = self.mycursor.fetchall()
         self.commitDB()
         return json.dumps(result)
 
-    def getGoal(self, user_id):
-        command = "SELECT goal FROM user_accounts WHERE user_id=" + \
-            str(user_id) + ";"
+    def getCharityBank(self, charity_name):
+        command = "SELECT bank_account FROM charity_accounts WHERE charity_name='" + \
+            str(charity_name) + "';"
         self.mycursor.execute(command)
         result = self.mycursor.fetchall()
         self.commitDB()
         return json.dumps(result)
 
-    def getTotal(self, user_id):
-        command = "SELECT current_total FROM user_accounts WHERE user_id=" + \
-            str(user_id) + ";"
+    def getUserGoal(self, username):
+        command = "SELECT goal FROM user_accounts WHERE username='" + \
+            str(username) + "';"
+        self.mycursor.execute(command)
+        result = self.mycursor.fetchall()
+        self.commitDB()
+        return json.dumps(result)
+
+    def getUserTotal(self, username):
+        command = "SELECT current_total FROM user_accounts WHERE username='" + \
+            str(username) + "';"
+        self.mycursor.execute(command)
+        result = self.mycursor.fetchall()
+        self.commitDB()
+        return json.dumps(result)
+
+    def getCharityTotal(self, charity_name):
+        command = "SELECT current_total FROM charity_accounts WHERE charity_name='" + \
+            str(charity_name) + "';"
         self.mycursor.execute(command)
         result = self.mycursor.fetchall()
         self.commitDB()
@@ -142,14 +196,6 @@ class DB:
 
     def getAllCharities(self):
         command = "SELECT charity_name FROM charity_accounts;"
-        self.mycursor.execute(command)
-        result = self.mycursor.fetchall()
-        self.commitDB()
-        return json.dumps(result)
-
-    def getAllCharityPercent(self, user_id):
-        command = "SELECT SUM(charity_percent) FROM user_accounts WHERE user_id=" + \
-            str(user_id) + ";"
         self.mycursor.execute(command)
         result = self.mycursor.fetchall()
         self.commitDB()

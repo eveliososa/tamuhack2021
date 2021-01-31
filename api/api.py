@@ -7,9 +7,10 @@ myDB.dropTable("user_accounts")
 myDB.dropTable("charity_accounts")
 myDB.createUserTable()
 myDB.createCharitiesTable()
-myDB.addCharity(0, 'BLM', 'password', 2)
-myDB.addUser(1, 'Mel', 'password', 3)
-myDB.addUser(2, 'Kai', 'password', 2)
+myDB.addCharity('BLM', 'password', 2)
+myDB.addUser('Mel', 'password', 3)
+myDB.addUser('Kai', 'password', 2)
+myDB.updateUserCharities('Kai', {'BML': 50, 'ABC': 50})
 myDB.getAllCharities()
 
 
@@ -19,11 +20,13 @@ def getUserData(id):
         'name': 'Hello World'
     }
 
+
 @app.route('/api/organization/<id>', methods=['GET'])
 def getOrganizationData(id):
     return {
         'name': 'Hello World'
     }
+
 
 @app.route('/api/registerUser', methods=['POST', 'GET'])
 def createUser():
@@ -31,7 +34,8 @@ def createUser():
         'name': 'Hello World'
     }
 
-@app.route('/api/registerOrganization', methods=['POST','GET'])
+
+@app.route('/api/registerOrganization', methods=['POST', 'GET'])
 def createOrganization():
     return {
         'name': 'Hello World'
