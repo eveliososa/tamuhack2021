@@ -79,7 +79,7 @@ class DB:
                        "'" + str(username) + "', ",
                        "'" + str(password) + "', ",
                        "0, ",
-                       "0"
+                       "0",
                        ");"]
             self.mycursor.execute("".join(command))
             self.commitDB()
