@@ -49,14 +49,21 @@ def getDonation(username):
         myDB.updateCharityTotalReceived(k, val)
 
 
-myDB.addCharity('BLM', 'blm', 'password')
-myDB.addCharity('ABC', 'abc', 'password')
+myDB.addCharity('PetSmart Charities', 'petsmart', 'password')
+myDB.addCharity('The Hunger Project', 'thp', 'password')
+myDB.addCharity('American Wildlife Foundation', 'awf', 'password')
 myDB.addUser('Mellisa', 'Perez', 'Mel', 'password')
 myDB.addUser('Kai', 'Gomes', 'kg', 'password')
-myDB.updateCharityDescription('BLM', 'Black Lives Matter')
-myDB.updateCharityDescription('ABC', 'Alphabet')
-myDB.updateUserCharities('Mel', {'BLM': 50, 'ABC': 50})
-myDB.updateUserCharities('kg', {'BLM': 50, 'ABC': 50})
+myDB.updateCharityDescription(
+    'PetSmart Charities', 'To find lifelong, loving homes for all pets by supporting programs and thought leadership that bring people and pets together.')
+myDB.updateCharityDescription('American Wildlife Foundation',
+                              'To ensure wildlife and wildlands thrive in modern Africa.')
+myDB.updateCharityDescription('The Hunger Project',
+                              'To end hunger and poverty by pioneering sustainable, grassroots, women-centered strategies and advocating for their widespread adoption in countries throughout the world.')
+myDB.updateUserCharities(
+    'Mel', {'The Hunger Project': 50, 'PetSmart Charities': 50})
+myDB.updateUserCharities('kg', {'American Wildlife Foundation': 10,
+                                'The Hunger Project': 50, 'PetSmart Charities': 40})
 getDonation('kg')
 
 # Note id is username for all of the route functions
