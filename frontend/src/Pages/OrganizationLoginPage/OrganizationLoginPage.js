@@ -16,9 +16,28 @@ export const OrganizationLoginPage = () => {
         setPassword(e.target.value);
     }
 
+    const validForm = username && password;
+
     const handleSubmit = () => {
-        console.log("Loging in organization!");
-    }
+        const body = {
+            username,
+            password,
+        };
+        fetch('http://localhost:5000/api/loginOrganization', {
+            crossDomain: true,
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify(body)
+        }).then((response) => {
+            if(response.ok){
+                return response.json();
+            }
+        }).then(data => {
+            if(data['status'] === true) {
+                window.location.href = `/organization/${username}`;
+            }
+        })
+    };
 
     return(
         <Box className="organizationLoginContainer">
@@ -30,7 +49,7 @@ export const OrganizationLoginPage = () => {
                 <Box className="organizationLoginFormFieldContainer">
                     <TextField className="organizationLoginFormField" id="password" required label="Password" type="password" value={password} onChange={handlePasswordChange} variant="outlined"/>
                 </Box>
-                <Button size="large" variant="contained" color="primary" onClick={() => handleSubmit()}>Login</Button>
+                <Button size="large" variant="contained" color="primary" onClick={() => handleSubmit()} disabled={!validForm}>Login</Button>
             </Box>
         </Box>
     );
