@@ -21,17 +21,17 @@ myDB.getAllCharities()
 # Note id is username for all of the route functions
 
 
-@app.route('/api/user/<id>', methods=['GET'])
+@app.route('/api/user/<username>', methods=['GET'])
 def getUserData(id):
     return {
-        myDB.getUserData(id)
+        myDB.getUserData(username)
     }
 
 
-@app.route('/api/organization/<id>', methods=['GET'])
+@app.route('/api/organization/<username>', methods=['GET'])
 def getOrganizationData(id):
     return {
-        myDB.getCharityData(id)
+        myDB.getCharityData(username)
     }
 
 
