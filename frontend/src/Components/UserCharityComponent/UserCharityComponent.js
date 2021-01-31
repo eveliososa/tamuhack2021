@@ -37,6 +37,7 @@ export const UserCharityComponent = ({
         }).then(data => {
             console.log(data);
         })
+        window.location.href = `/user/${username}`;
     }
 
     const [charityOptions, setCharityOptions] = React.useState([]);

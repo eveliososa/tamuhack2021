@@ -1,12 +1,15 @@
 .homePageContainer{
     margin: 0px !important;
-    padding: 0px !important; 
+    padding: 0px !important;
+    background-image: url("home.png");
+    height: 100vh;
 }
 .homePageNavigationContainer{
     margin: 0px !important;
     padding: 25px 0px !important;
-    background-color: #154360;
     display: grid;
+    background-color: black !important;
+    opacity: .80 !important;
     grid-template-columns: 50% 50%;
 }
 .homePageTitleContainer{
