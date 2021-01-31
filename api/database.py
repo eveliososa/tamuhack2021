@@ -68,7 +68,7 @@ class DB:
                        "charity_name, ",
                        "username, ",
                        "password, ",
-                       "current_total",
+                       "current_total, ",
                        "total_received",
                        ") VALUES (",
                        "'" + str(charity_name) + "', ",
