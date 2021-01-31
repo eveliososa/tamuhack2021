@@ -132,7 +132,8 @@ class DB:
     def validateCharityLogin(self, username, password):
         self.mycursor.execut("SELECT * FROM charity_accounts WHERE username='" +
                              str(username) + "' AND password='" + str(password) + "';")
-        if self.mycursor.rowcount > 0:
+        data = self.mycursor.fetchall()
+        if len(data) > 0:
             return True
         else:
             return False
@@ -140,7 +141,8 @@ class DB:
     def validateUserLogin(self, username, password):
         self.mycursor.execut("SELECT * FROM user_accounts WHERE username='" +
                              str(username) + "' AND password='" + str(password) + "';")
-        if self.mycursor.rowcount > 0:
+        data = self.mycursor.fetchall()
+        if len(data) > 0:
             return True
         else:
             return False
