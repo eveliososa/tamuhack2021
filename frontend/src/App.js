@@ -15,12 +15,12 @@ function App() {
     <Box className="App">
       <Router>
         <HomePage path="/" />
-        <UserPage path="/user/:id" />
+        <UserPage path="/user/:username" />
         <UserRegistrationPage path="/userRegistration" />
         <UserLoginPage path="/userLogin" />
         <OrganizationRegistrationPage path="/organizationRegistration" />
         <OrganizationLoginPage path="/organizationLogin" />
-        <OrganizationPage path="/organization/:id" />
+        <OrganizationPage path="/organization/:username" />
       </Router>
     </Box>
   );
