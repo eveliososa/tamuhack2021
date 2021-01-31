@@ -12,8 +12,8 @@ CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 myDB = DB()
-# myDB.dropTable("user_accounts")
-# myDB.dropTable("charity_accounts")
+myDB.dropTable("user_accounts")
+myDB.dropTable("charity_accounts")
 myDB.createUserTable()
 myDB.createCharitiesTable()
 
@@ -49,9 +49,10 @@ def getDonation(username):
         myDB.updateCharityTotalReceived(k, val)
 
 
-myDB.addCharity('PetSmart Charities', 'petsmart', 'password')
-myDB.addCharity('The Hunger Project', 'thp', 'password')
-myDB.addCharity('American Wildlife Foundation', 'awf', 'password')
+myDB.addCharity('PetSmart Charities', 'PetSmart Charities', 'password')
+myDB.addCharity('The Hunger Project', 'The Hunger Project', 'password')
+myDB.addCharity('American Wildlife Foundation',
+                'American Wildlife Foundation', 'password')
 myDB.addUser('Mellisa', 'Perez', 'Mel', 'password')
 myDB.addUser('Kai', 'Gomes', 'kg', 'password')
 myDB.updateCharityDescription(
@@ -67,6 +68,14 @@ myDB.updateUserCharities('kg', {'American Wildlife Foundation': 10,
 getDonation('kg')
 
 # Note id is username for all of the route functions
+
+
+@app.route('/api/addChar/<username>/<charity_name>', methods=['GET'])
+@cross_origin()
+def addCharToUser(username, charity_name):
+    char_name = {charity_name: 100}
+    myDB.updateUserCharities(username, char_name)
+    return {"status": True}
 
 
 @app.route('/api/donation/<username>', methods=['POST'])
