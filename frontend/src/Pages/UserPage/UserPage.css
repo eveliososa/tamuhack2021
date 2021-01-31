@@ -1,0 +1,11 @@
+.navigationContainer{
+    height: 65px;
+    margin: 20px auto 0px auto;
+    padding: 15px;
+    align-items: center;
+    text-align: center;
+}
+.navigationButton{
+    padding: 10px 25px !important;
+    margin: auto 10px !important;
+}
