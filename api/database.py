@@ -56,9 +56,9 @@ class DB:
         self.commitDB()
         return result
 
-    def getCharityData(self, charity_name):
+    def getCharityData(self, username):
         self.mycursor.execute(
-            "SELECT * FROM charity_accounts WHERE charity_name='" + str(charity_name) + "';")
+            "SELECT * FROM charity_accounts WHERE username='" + str(username) + "';")
         result = self.mycursor.fetchall()
         self.commitDB()
         return result
