@@ -129,30 +129,37 @@ class DB:
     def updateUserTotal(self, username, current_total):
         self.mycursor.execute("UPDATE user_accounts SET current_total ="
                               + str(current_total) + " WHERE username='" + str(username) + "';")
+        self.commitDB()
 
     def updateUserGoal(self, username, goal):
         self.mycursor.execute("UPDATE user_accounts SET goal ="
                               + str(goal) + " WHERE username='" + str(username) + "';")
+        self.commitDB()
 
     def updateUserPassword(self, username, password):
         self.mycursor.execute("UPDATE user_accounts SET password ='"
                               + str(password) + "' WHERE username='" + str(username) + "';")
+        self.commitDB()
 
     def updateUserBank(self, username, bank_account):
         self.mycursor.execute("UPDATE user_accounts SET bank_account ="
                               + str(bank_account) + " WHERE username='" + str(username) + "';")
+        self.commitDB()
 
     def updateCharityPassword(self, charity_name, password):
         self.mycursor.execute("UPDATE charity_accounts SET password ='"
                               + str(password) + "' WHERE charity_name='" + str(charity_name) + "';")
+        self.commitDB()
 
     def updateCharityBank(self, charity_name, bank_account):
         self.mycursor.execute("UPDATE charity_accounts SET bank_account ="
                               + str(bank_account) + " WHERE charity_name='" + str(charity_name) + "';")
+        self.commitDB()
 
     def updateCharTotal(self, charity_name, current_total):
         self.mycursor.execute("UPDATE charity_accounts SET current_total ="
                               + str(current_total) + " WHERE charity_name='" + str(charity_name) + "';")
+        self.commitDB()
 
     def getUserBank(self, username):
         command = "SELECT bank_account FROM user_accounts WHERE username='" + \
@@ -200,3 +207,13 @@ class DB:
         result = self.mycursor.fetchall()
         self.commitDB()
         return json.dumps(result)
+
+    def removeUser(self, username):
+        self.mycursor.execute(
+            "DELETE FROM user_accounts WHERE username='" + str(username) + "';")
+        self.commitDB()
+
+    def removeCharity(self, charity_name):
+        self.mycursor.execute(
+            "DELETE FROM charity_accounts WHERE charity_name='" + str(charity_name) + "';")
+        self.commitDB()
