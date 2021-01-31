@@ -52,12 +52,16 @@ class DB:
     def getUserData(self, username):
         self.mycursor.execute(
             "SELECT * FROM user_accounts WHERE username='" + str(username) + "';")
+        result = self.mycursor.fetchall()
         self.commitDB()
+        return json.dumps(result)
 
     def getCharityData(self, username):
         self.mycursor.execute(
             "SELECT * FROM charity_accounts WHERE username='" + str(username) + "';")
+        result = self.mycursor.fetchall()
         self.commitDB()
+        return json.dumps(result)
 
     def addCharity(self, charity_name, username, password):
         self.mycursor.execute(
