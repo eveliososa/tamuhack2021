@@ -268,7 +268,8 @@ class DB:
         self.commitDB()
 
     def getSubCount(self, charity_name):
-        self.mycursor.execute("SELECT charity_id_percent FROM user_accounts;")
+        self.mycursor.execute(
+            "SELECT charity_id_percent FROM user_accounts WHERE charity_id_percent IS NOT NULL;")
         result = self.mycursor.fetchall()
         count = 0
         for item in result:
