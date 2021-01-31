@@ -7,12 +7,12 @@ import { UserCharityComponent } from "../../Components/UserCharityComponent/User
 import { UserMainComponent } from "../../Components/UserMainComponent/UserMainComponent";
 
 export const UserPage = () => {
-    const { id } = useParams();
+    const { username } = useParams();
 
     const [userData, setUserData] = React.useState([]);
 
     React.useEffect(() => {
-        fetch(`http://127.0.0.1:5000/api/user/${id}`, {
+        fetch(`http://127.0.0.1:5000/api/user/${username}`, {
             crossDomain: true,
             method: "GET",
             headers: {"Content-Type":"application/json"}
@@ -23,7 +23,7 @@ export const UserPage = () => {
         }).then(data => {
             setUserData(data);
         })
-    }, [id]);
+    }, [username]);
 
     const pageOptions = ["Home", "Charities"];
 
