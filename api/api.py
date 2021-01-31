@@ -36,19 +36,6 @@ def processTransactions():
 # Need to be Moved
 
 
-def getDonation(username):
-    donation = processTransactions()
-    current_total = myDB.getUserTotal(username)[0]['current_total']
-    myDB.updateUserTotal(username, current_total + donation)
-    output = json.loads(myDB.getUserCharity(
-        username)[0]['charity_id_percent'])  # json with mapping
-    for k, v in output.items():
-        current_charity = myDB.getCharityTotal(k)[0]['current_total']
-        val = current_charity + round(v * .01 * donation, 2)
-        myDB.updateCharTotal(k, val)
-        myDB.updateCharityTotalReceived(k, val)
-
-
 myDB.addCharity('PetSmart Charities', 'PetSmart Charities', 'password')
 myDB.addCharity('The Hunger Project', 'The Hunger Project', 'password')
 myDB.addCharity('American Wildlife Foundation',
@@ -68,6 +55,23 @@ myDB.updateUserCharities('kg', {'American Wildlife Foundation': 10,
 getDonation('kg')
 
 # Note id is username for all of the route functions
+
+
+@app.route('/api/getDonation/<username>', methods=['GET'])
+def getDonation(username):
+    donation = processTransactions()
+    current_total = myDB.getUserTotal(username)[0]['current_total']
+    myDB.updateUserTotal(username, current_total + donation)
+    output = json.loads(myDB.getUserCharity(
+        username)[0]['charity_id_percent'])  # json with mapping
+    for k, v in output.items():
+        current_charity = myDB.getCharityTotal(k)[0]['current_total']
+        val = current_charity + round(v * .01 * donation, 2)
+        myDB.updateCharTotal(k, val)
+        myDB.updateCharityTotalReceived(k, val)
+    return{
+        "status": True
+    }
 
 
 @app.route('/api/addChar/<username>/<charity_name>', methods=['GET'])
